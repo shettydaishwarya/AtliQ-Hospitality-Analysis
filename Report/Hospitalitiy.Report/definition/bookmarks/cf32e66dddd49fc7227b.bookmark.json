@@ -342,12 +342,6 @@
               }
             }
           },
-          "be65c8f6cb9fb2558168": {
-            "singleVisual": {
-              "visualType": "textbox",
-              "objects": {}
-            }
-          },
           "6c4b809521ae8cdae0b3": {
             "filters": {
               "byExpr": [
@@ -754,12 +748,6 @@
                   }
                 }
               ]
-            }
-          },
-          "a2a9a490a2821bbc6bf9": {
-            "singleVisual": {
-              "visualType": "textbox",
-              "objects": {}
             }
           },
           "7bc4d0598f08d2014d5d": {
