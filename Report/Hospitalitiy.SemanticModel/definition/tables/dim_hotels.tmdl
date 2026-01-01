@@ -1,0 +1,48 @@
+table dim_hotels
+	lineageTag: 22a7025e-f5bd-43a6-9d90-a6cb8dde5110
+
+	column property_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 25b5d68f-cbd5-47b4-9b88-85083d4b650a
+		summarizeBy: none
+		sourceColumn: property_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column property_name
+		dataType: string
+		lineageTag: 2292ff5e-e499-4802-8c65-0531b1bd510d
+		summarizeBy: none
+		sourceColumn: property_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column category
+		dataType: string
+		lineageTag: 3e060c32-5515-4d0a-9e96-a84f5c6c2339
+		summarizeBy: none
+		sourceColumn: category
+
+		annotation SummarizationSetBy = Automatic
+
+	column city
+		dataType: string
+		lineageTag: c023b46b-309e-4088-a1bc-755e8a18fa46
+		summarizeBy: none
+		sourceColumn: city
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_hotels = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents("F:\DATA_ANALYST BOOTCAMP\Power BI\Resume_Project_Challenge\Hospitalitiy\input-files-1\Input Files\dim_hotels.csv"),[Delimiter=",", Columns=4, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"property_id", Int64.Type}, {"property_name", type text}, {"category", type text}, {"city", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+

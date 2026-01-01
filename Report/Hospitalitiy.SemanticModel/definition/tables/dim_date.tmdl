@@ -1,0 +1,82 @@
+table dim_date
+	lineageTag: 876c55bb-c16f-48fa-90f5-5a8018a2f5db
+
+	column date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: f4294f1a-c540-4135-9204-4e29a66798f8
+		summarizeBy: none
+		sourceColumn: date
+
+		variation Variation
+			isDefault
+			relationship: b6186ae1-8115-4cce-a0b5-e4130b9f2cad
+			defaultHierarchy: LocalDateTable_ef7677cb-69f9-4c59-bb91-31aab1742694.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'mmm yy'
+		dataType: dateTime
+		formatString: Mmm yy
+		lineageTag: 0d263b43-3696-495c-9d4c-63d788cfad55
+		summarizeBy: none
+		sourceColumn: mmm yy
+
+		variation Variation
+			isDefault
+			relationship: 1cfe6c46-ded8-4f77-a465-2d59b4181851
+			defaultHierarchy: LocalDateTable_f4327190-b38f-4eec-b6cc-f8aa7e85dc42.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isCustom":true}
+
+	column 'week no'
+		dataType: string
+		lineageTag: b7854867-a1a2-4d9c-b9d2-b4cf746ad007
+		summarizeBy: none
+		sourceColumn: week no
+
+		annotation SummarizationSetBy = Automatic
+
+	column wn = WEEKNUM(dim_date[date])
+		formatString: 0
+		lineageTag: 29ecda59-84ef-4d2c-a75b-2380f29be264
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'day type' = ```
+			
+			 
+			 Var wkd = WEEKDAY(dim_date[date],1)
+			
+			 return
+			 IF(
+			 wkd>5,"Weekend","Weekday")
+			```
+		lineageTag: e9aee15f-fedb-4c42-bb09-0e2152020187
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_date = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents("F:\DATA_ANALYST BOOTCAMP\Power BI\Resume_Project_Challenge\Hospitalitiy\input-files-1\Input Files\dim_date.csv"),[Delimiter=",", Columns=4, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"date", type date}, {"mmm yy", type date}, {"week no", type text}, {"day_type", type text}}),
+				    #"Replaced ""weekeday"" to ""weekday""" = Table.ReplaceValue(#"Changed Type","weekeday","weekday",Replacer.ReplaceText,{"day_type"}),
+				    #"Removed "" day_type"" Column" = Table.RemoveColumns(#"Replaced ""weekeday"" to ""weekday""",{"day_type"})
+				in
+				    #"Removed "" day_type"" Column"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

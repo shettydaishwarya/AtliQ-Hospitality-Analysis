@@ -1,0 +1,135 @@
+table fact_bookings
+	lineageTag: 3aebdde1-8167-4ecd-a3c8-5993df50efdc
+
+	column booking_id
+		dataType: string
+		lineageTag: a16ed3ab-0f67-4d31-94e6-589a7ae4b513
+		summarizeBy: none
+		sourceColumn: booking_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column property_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 407eb109-2c35-4b02-b6b8-d5f1896b450a
+		summarizeBy: none
+		sourceColumn: property_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column booking_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 7c098eb1-2c19-4e3c-b287-bb44679b641d
+		summarizeBy: none
+		sourceColumn: booking_date
+
+		variation Variation
+			isDefault
+			relationship: 49ee5c63-3d45-4cc0-8937-caee9adb6d62
+			defaultHierarchy: LocalDateTable_a76327e0-a3c1-4e89-8104-5bcbf7661a35.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column check_in_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: d39899c8-cbd0-48d8-811b-c8a3761776a1
+		summarizeBy: none
+		sourceColumn: check_in_date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column checkout_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: b4730835-34b7-49f2-9994-9b2d7d556184
+		summarizeBy: none
+		sourceColumn: checkout_date
+
+		variation Variation
+			isDefault
+			relationship: e19a08be-e45a-47d3-aa99-3f6f7c5757ab
+			defaultHierarchy: LocalDateTable_b27bde7a-7e50-404e-aeb2-2a77d57347f5.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column no_guests
+		dataType: int64
+		formatString: 0
+		lineageTag: e81ede8e-c7c2-4418-af09-18dc9d20ea91
+		summarizeBy: sum
+		sourceColumn: no_guests
+
+		annotation SummarizationSetBy = Automatic
+
+	column room_category
+		dataType: string
+		lineageTag: 6e32ee79-18e6-4561-8554-4ea2216eaf0d
+		summarizeBy: none
+		sourceColumn: room_category
+
+		annotation SummarizationSetBy = Automatic
+
+	column booking_platform
+		dataType: string
+		lineageTag: 082e852c-39a7-4b64-945b-697a70e7560c
+		summarizeBy: none
+		sourceColumn: booking_platform
+
+		annotation SummarizationSetBy = Automatic
+
+	column ratings_given
+		dataType: int64
+		formatString: 0
+		lineageTag: c58d1a93-36c5-470e-81cb-09ad20e5503a
+		summarizeBy: sum
+		sourceColumn: ratings_given
+
+		annotation SummarizationSetBy = Automatic
+
+	column booking_status
+		dataType: string
+		lineageTag: d3ecd318-5eb8-415e-a7e2-88b0cfd38e14
+		summarizeBy: none
+		sourceColumn: booking_status
+
+		annotation SummarizationSetBy = Automatic
+
+	column revenue_generated
+		dataType: int64
+		formatString: 0
+		lineageTag: 5d9ed6d4-8fb8-4560-bd76-39011dabb804
+		summarizeBy: sum
+		sourceColumn: revenue_generated
+
+		annotation SummarizationSetBy = Automatic
+
+	column revenue_realized
+		dataType: int64
+		formatString: 0
+		lineageTag: b60f6c1d-46ae-478b-a319-c3e9c5d5f381
+		summarizeBy: sum
+		sourceColumn: revenue_realized
+
+		annotation SummarizationSetBy = Automatic
+
+	partition fact_bookings = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents("F:\DATA_ANALYST BOOTCAMP\Power BI\Resume_Project_Challenge\Hospitalitiy\input-files-1\Input Files\fact_bookings.csv"),[Delimiter=",", Columns=12, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"booking_id", type text}, {"property_id", Int64.Type}, {"booking_date", type date}, {"check_in_date", type date}, {"checkout_date", type date}, {"no_guests", Int64.Type}, {"room_category", type text}, {"booking_platform", type text}, {"ratings_given", Int64.Type}, {"booking_status", type text}, {"revenue_generated", Int64.Type}, {"revenue_realized", Int64.Type}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+

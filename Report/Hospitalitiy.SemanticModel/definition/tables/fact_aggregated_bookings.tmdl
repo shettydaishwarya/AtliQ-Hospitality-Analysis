@@ -1,0 +1,61 @@
+table fact_aggregated_bookings
+	lineageTag: 8aabad7a-0113-48f6-af11-cfcf81615266
+
+	column property_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 615425e8-b11f-4308-bbea-9b4866eec5e4
+		summarizeBy: none
+		sourceColumn: property_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column check_in_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 6a6b5980-48c1-4463-bb4a-cd979aa53178
+		summarizeBy: none
+		sourceColumn: check_in_date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column room_category
+		dataType: string
+		lineageTag: e77a6e75-f19e-410b-aa6a-5a53c3ef6430
+		summarizeBy: none
+		sourceColumn: room_category
+
+		annotation SummarizationSetBy = Automatic
+
+	column successful_bookings
+		dataType: int64
+		formatString: 0
+		lineageTag: 66b8b843-30c7-4487-b6a3-aa81c477e7fb
+		summarizeBy: sum
+		sourceColumn: successful_bookings
+
+		annotation SummarizationSetBy = Automatic
+
+	column capacity
+		dataType: int64
+		formatString: 0
+		lineageTag: 3f6d2c18-818a-4bbb-bffe-6332e830cbcc
+		summarizeBy: sum
+		sourceColumn: capacity
+
+		annotation SummarizationSetBy = Automatic
+
+	partition fact_aggregated_bookings = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents("F:\DATA_ANALYST BOOTCAMP\Power BI\Resume_Project_Challenge\Hospitalitiy\input-files-1\Input Files\fact_aggregated_bookings.csv"),[Delimiter=",", Columns=5, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"property_id", Int64.Type}, {"check_in_date", type date}, {"room_category", type text}, {"successful_bookings", Int64.Type}, {"capacity", Int64.Type}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+
