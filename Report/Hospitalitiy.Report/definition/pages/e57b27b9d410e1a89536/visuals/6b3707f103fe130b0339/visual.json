@@ -45,7 +45,7 @@
                     }
                   },
                   {
-                    "value": " page presents high-level KPIs and trends as requested by stakeholders.",
+                    "value": " presents high-level KPIs and trends as requested by stakeholders.",
                     "textStyle": {
                       "fontFamily": "Segoe UI Semibold",
                       "fontSize": "16pt"
@@ -64,7 +64,7 @@
                     }
                   },
                   {
-                    "value": "Business Insights",
+                    "value": "Key Insights",
                     "textStyle": {
                       "fontWeight": "bold",
                       "fontFamily": "Segoe UI Semibold",
@@ -72,7 +72,7 @@
                     }
                   },
                   {
-                    "value": " page goes beyond the mock-up to explain ",
+                    "value": " View goes beyond the mock-up to explain ",
                     "textStyle": {
                       "fontFamily": "Segoe UI Semibold",
                       "fontSize": "16pt"
@@ -87,7 +87,19 @@
                     }
                   },
                   {
-                    "value": " performance is changing and where management should focus.",
+                    "value": " revenue is changing",
+                    "textStyle": {
+                      "fontFamily": "Segoe UI Semibold",
+                      "fontSize": "16pt"
+                    }
+                  }
+                ],
+                "listType": "bullet"
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "The Property and Room Class Performance View focuses on where the management should act.",
                     "textStyle": {
                       "fontFamily": "Segoe UI Semibold",
                       "fontSize": "16pt"
